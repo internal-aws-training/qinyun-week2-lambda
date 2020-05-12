@@ -1,0 +1,9 @@
+LAMBDA_FUNCTION_NAME=lambda-training-qinyun
+S3_SOURCE_BUCKET_NAME=aws-training-qinyun
+S3_TARGET_BUCKET_NAME=aws-training-qinyun-copy
+STACK_NAME=aws-training-stack-qinyun
+
+function step_info() {
+  echo "---------------------------"
+  echo $1
+}
