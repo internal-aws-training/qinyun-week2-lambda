@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  ReadFile:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: "lambda_handler"
+      Handler: "index.lambda_handler"
+      Role: "arn:aws:iam::494526681395:role/for-aws-training"
+      Code:
+        S3Bucket: "aws-training-qinyun"
+        S3Key: "index.zip"
+      Runtime: "python3.7"
+      Timeout: 60
