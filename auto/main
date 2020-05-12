@@ -1,12 +1,12 @@
-#! /bin/bash -ex
+#! /bin/bash
 cd $(dirname $0)/..
 
 source ./auto/set-env
 
 step_info "1. Create a lambda function using the zipped code file"
 aws lambda create-function --function-name ${LAMBDA_FUNCTION_NAME} \
-  --runtime pythhon3.8 --role arn:aws:iam::494526681395:role/for-aws-training \
-  --zip-file fileb://./src/index.zip
+  --runtime python3.8 --role arn:aws:iam::494526681395:role/for-aws-training \
+  --handler index.lambda_handler --zip-file fileb://./src/index.zip
 
 step_info "2. Create S3 resoure bucket"
 aws s3 mb s3://${S3_SOURCE_BUCKET_NAME}
@@ -19,3 +19,12 @@ aws s3 mb s3://${S3_TARGET_BUCKET_NAME}
 
 step_info "5. Invoke the lambda function to copy the file uploaded to target bucket"
 aws lambda invoke --function-name ${LAMBDA_FUNCTION_NAME} response.json
+
+step_info "6. Upload cloudfront config file to source bucket"
+aws s3 cp ./aws/cloudformation/resources.yaml s3://${S3_SOURCE_BUCKET_NAME}
+
+step_info "7. Upload code zipped file to source bucket"
+aws s3 cp ./src/index.zip s3://${S3_SOURCE_BUCKET_NAME}
+
+step_info "8. Create a stack using the file uploaded"
+aws cloudformation create-stack --stack-name ${STACK_NAME} --template-url https://${S3_SOURCE_BUCKET_NAME}.s3-ap-southeast-1.amazonaws.com/resources.yaml
