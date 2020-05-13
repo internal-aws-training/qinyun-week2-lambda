@@ -10,4 +10,4 @@ Resources:
         S3Bucket: "aws-training-qinyun"
         S3Key: "index.zip"
       Runtime: "python3.7"
-      Timeout: 60
+      Timeout: 3
