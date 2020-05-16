@@ -1,13 +1,50 @@
 AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  SourceBucketName:
+    Type: String
+    Description: The S3 bucket as a files container
+  TargetBucketName:
+    Type: String
+    Description: The S3 bucket will copy files to
+  LambdaRole:
+    Type: String
+    Description: Valid role to create lambda function
+
 Resources:
   ReadFile:
-    Type: "AWS::Lambda::Function"
+    Type: AWS::Lambda::Function
     Properties:
-      FunctionName: "lambda_handler"
-      Handler: "index.lambda_handler"
-      Role: "arn:aws:iam::494526681395:role/for-aws-training"
+      FunctionName: lambda_handler
+      Handler: index.lambda_handler
+      Role: !Ref LambdaRole
       Code:
-        S3Bucket: "aws-training-qinyun"
-        S3Key: "index.zip"
+        S3Bucket: aws-training-qinyun
+        S3Key: index.zip
       Runtime: "python3.7"
       Timeout: 3
+
+  ResourceBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref SourceBucketName
+      NotificationConfiguration:
+        LambdaConfigurations:
+          Event: s3:ObjectCreated:*
+          Filter:
+            S3Key:
+              Rules:
+                - Name: suffix
+                  Value: .jpg
+          Function: !GetAtt ReadFile
+
+  TargetBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref TargetBucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: TRUE
+        BlockPublicPolicy: TRUE
+        RestrictPublicBuckets: TRUE
+      VersioningConfiguration:
+        Status: Enabled
