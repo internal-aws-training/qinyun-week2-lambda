@@ -10,6 +10,9 @@ Parameters:
   LambdaRole:
     Type: String
     Description: Valid role to create lambda function
+  LambdaCode:
+    Type: String
+    Description: The code of lambda function to deploy
 
 Resources:
   ReadFile:
@@ -19,8 +22,7 @@ Resources:
       Handler: index.lambda_handler
       Role: !Ref LambdaRole
       Code:
-        S3Bucket: aws-training-qinyun
-        S3Key: index.zip
+        ZipFile: !Ref LambdaCode
       Runtime: "python3.7"
       Timeout: 3
 

@@ -25,6 +25,3 @@ aws s3 cp ./aws/cloudformation/resources.yaml s3://${S3_SOURCE_BUCKET_NAME}
 
 step_info "7. Upload code zipped file to source bucket"
 aws s3 cp ./src/index.zip s3://${S3_SOURCE_BUCKET_NAME}
-
-step_info "8. Create a stack using the file uploaded"
-aws cloudformation create-stack --stack-name ${STACK_NAME} --template-url https://${S3_SOURCE_BUCKET_NAME}.s3-ap-southeast-1.amazonaws.com/resources.yaml
