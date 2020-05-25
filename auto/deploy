@@ -3,9 +3,9 @@ cd $(dirname $0)/..
 
 source ./auto/set-env
 
-LAMBDA_CODE=$(cat ./src/index.py)
+./auto/build
 
 # Add parameters to cloudformation config file using stackup
 stackup ${STACK_NAME} up -t aws/cloudformation/template.yml \
-  -p aws/cloudformation/params.yml \
-  -o LambdaCode=${LAMBDA_CODE}
+  -p aws/cloudformation/params.yml
+  

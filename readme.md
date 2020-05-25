@@ -3,7 +3,7 @@ This repo is to create a lambda function which can read and copy files from diff
 
 ## Structure
 
-![avatar](https://imgur.com/YSLj8ze.png)
+![avatar](https://imgur.com/w9W90aR.jpg)
 
 ## Run the project
 ```shell
