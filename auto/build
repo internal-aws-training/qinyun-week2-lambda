@@ -1,0 +1,14 @@
+#!/bin/bash
+cd $(dirname $0)/..
+
+IMAGE_NAME=lambda-function
+
+rm -rf ./dist
+docker build -t ${IMAGE_NAME} .
+docker run \
+  -v $(pwd)/dist:/dist \
+  --name rent-customer-pre-onboarding-container \
+  --rm \
+  ${IMAGE_NAME} \
+  sh -c 'cp -r /app/* /dist'
+  

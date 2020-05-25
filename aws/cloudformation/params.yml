@@ -1,5 +1,4 @@
 SourceBucketName: aws-training-qinyun
 TargetBucketName: aws-training-qinyun-copy
-LambdaRole: arn:aws:iam::494526681395:role/for-aws-training
-# Will be injected when deploy
-LambdaCode: ''
+LambdaFunctionName: aws-training-qinyun-lambda
+LambdaPolicyName: lambda-mimmum
